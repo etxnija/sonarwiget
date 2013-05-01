@@ -2,18 +2,9 @@
 <html>
     <head>
         <meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 15.6), see www.w3.org">
-        <link href="http://sonar:8080/stylesheets/sonar.css" media="all" rel="stylesheet" type="text/css">
         <title></title>
     </head>
     <body>
-        <style type="text/css">
-            a.tredningWorse { 
-                color:#FF0000;
-            }
-            a.tredningBetter { 
-                color:#0000FF;
-            }
-        </style>
         <script type="text/javascript">
 var J50Npi = {  
                     currentScript: null,  
@@ -108,6 +99,18 @@ var J50Npi = {
                 J50Npi.getJSON(url, data, callback);
 
         </script>
+        <div>
+        <style type="text/css">
+            a.tredningWorse:link { color:#FF0000;}
+            a.tredningWorse:visited { color:#FF0000;}
+            a.tredningWorse:hover { color:#FF0000;}
+            a.tredningWorse:active { color:#FF0000;}
+            a.tredningBetter:link { color:#0000FF;}
+            a.tredningBetter:visited { color:#0000FF;}
+            a.tredningBetter:hover { color:#0000FF;}
+            a.tredningBetter:active { color:#0000FF;}
+
+        </style>
         <table width="500px" border="1">
             <tr>
                 <td colspan="2">
@@ -121,7 +124,7 @@ var J50Npi = {
                             Violations
                         </h3>
                         <div>
-                            <span><a href='http://sonar:8080/drilldown/violations/com.nordstrom.sf.mpos:Develop' class='tredningBetter' rel='' title=''>
+                            <span><a class='tredningWorse' href='http://sonar:8080/drilldown/violations/com.nordstrom.sf.mpos:Develop' rel='' title=''>
                                 <span id='m_violations'></span></a>
                             </span> 
                         </div>
@@ -143,7 +146,7 @@ var J50Npi = {
                             Classes
                         </h3>
                         <div>
-                            <span><a href='http://sonar:8080/drilldown/measures/20620?metric=classes' class='' rel='' title=''><span id='m_classes'></span></a>
+                            <span><a class='tredningWorse' href='http://sonar:8080/drilldown/measures/20620?metric=classes' class='' rel='' title=''><span id='m_classes'></span></a>
                             </span> 
                         </div>
                         <h3>
@@ -190,5 +193,6 @@ var J50Npi = {
                 </td>
             </tr>
         </table>
+        /</div>
     </body>
 </html>
