@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 15.6), see www.w3.org">
+        <link href="http://sonar:8080/stylesheets/sonar.css" media="all" rel="stylesheet" type="text/css">
+        <title></title>
+    </head>
+    <body>
+        <style type="text/css">
+            a.tredningWorse { 
+                color:#FF0000;
+            }
+            a.tredningBetter { 
+                color:#0000FF;
+            }
+        </style>
+        <script type="text/javascript">
+var J50Npi = {  
+                    currentScript: null,  
+                    getJSON: function(url, data, callback) {
+                      var src = url + (url.indexOf("?")+1 ? "&" : "?");
+                      var head = document.getElementsByTagName("head")[0];
+                      var newScript = document.createElement("script");
+                      var params = [];
+                      var param_name = ""
+
+                      this.success = callback;
+
+                      data["callback"] = "J50Npi.success";
+                      for(param_name in data){  
+                          params.push(param_name + "=" + encodeURIComponent(data[param_name]));  
+                      }
+                      src += params.join("&")
+
+                      newScript.type = "text/javascript";  
+                      newScript.src = src;
+
+                      if(this.currentScript) head.removeChild(currentScript);
+                      head.appendChild(newScript); 
+                    },
+                    success: null
+                };
+
+
+                var url = "http://sonar:8080/api/resources";
+                var data = {};
+                var msr = ["violations",
+                                        "violations_density",
+                                        "ncloc",
+                                        "coverage",
+                                        "blocker_violations",
+                                        "critical_violations",
+                                        "weighted_violations",
+                                        "complexity",
+                                        "classes",
+                                        "test_success_density",
+                                        "duplicated_lines",
+                                        "duplicated_lines_density"];
+                data["metrics"] = msr;
+                data["resource"]='20620';
+                data["format"]='json';
+                data["includetrends"]="true";
+                var callback = function(data) {
+                        var projectInfo = data[0];
+                        var measuers = projectInfo.msr;
+                        projectName.innerHTML=projectInfo.name;
+                        projectVersion.innerHTML=projectInfo.version;
+                        runDate.innerHTML=projectInfo.date;
+
+                        measuers.forEach(function(mesure) {
+                            var trend = mesure.trend;
+                            var change = mesure.var1;
+
+                                switch (mesure.key)
+                                {
+                                        case "blocker_violations":
+                                                m_blocker_violations.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                break;
+                                        case "violations":
+                                                m_violations.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                break;
+                                        case "violations_density":
+                                                m_violations_density.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                break;
+                                        case "critical_violations":
+                                                m_critical_violations.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                break;
+                                        case "ncloc":
+                                                m_ncloc.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                break;
+                                        case "classes":
+                                                m_classes.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";;
+                                                break;
+                                        case "test_success_density":
+                                                m_test_success_density.innerHTML = mesure.frmt_val;
+                                                break;
+                                        case "coverage":
+                                                m_coverage.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";;
+                                                break;
+                                                
+                                }
+                        });
+
+
+
+                };
+
+                J50Npi.getJSON(url, data, callback);
+
+        </script>
+        <table width="500px" border="1">
+            <tr>
+                <td colspan="2">
+                    <h2><span id="projectName"></span> &nbsp; <span id="projectVersion"></span> &nbsp; <span id="runDate"></span></h2>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <div class="dashbox">
+                        <h3>
+                            Violations
+                        </h3>
+                        <div>
+                            <span><a href='http://sonar:8080/drilldown/violations/com.nordstrom.sf.mpos:Develop' class='tredningBetter' rel='' title=''>
+                                <span id='m_violations'></span></a>
+                            </span> 
+                        </div>
+                        <h3>
+                            Rules compliance
+                        </h3>
+                        <div>
+                            <span><a href='http://sonar:8080/drilldown/measures/20620?highlight=weighted_violations&amp;metric=weighted_violations' class='' rel='' title=''><span id='m_violations_density'></span></a>
+                            </span> 
+                        </div>
+                        <h3>
+                            Lines of code
+                        </h3>
+                        <div>
+                            <span><a href='http://sonar:8080/drilldown/measures/20620?metric=ncloc' class='' rel='' title=''><span id='m_ncloc'></span></a>
+                            </span> 
+                        </div>
+                        <h3>
+                            Classes
+                        </h3>
+                        <div>
+                            <span><a href='http://sonar:8080/drilldown/measures/20620?metric=classes' class='' rel='' title=''><span id='m_classes'></span></a>
+                            </span> 
+                        </div>
+                        <h3>
+                            Unit test success
+                        </h3>
+                        <div>
+                            <span><a href='http://sonar:8080/drilldown/measures/20620?metric=test_success_density' class='' rel='' title=''><span id='m_test_success_density'></span></a>
+                            </span> 
+                        </div>
+                        <h3>
+                            Code coverage
+                        </h3>
+                        <div>
+                            <span><a href='http://sonar:8080/drilldown/measures/20620?metric=coverage' class='' rel='' title=''><span id='m_coverage'></span></a>
+                            </span> 
+                        </div>
+                    </div>
+                </td>
+                <td valign="top" nowrap>
+                    <table class="clear width100" border="1">
+                        <tr>
+                            <td>
+                                <img alt="Blocker" src="http://sonar:8080/images/priority/BLOCKER.png">
+                            </td>
+                            <td>
+                                &nbsp;<a href="http://sonar:8080/drilldown/violations/com.nordstrom.sf.mpos:Develop?severity=BLOCKER">Blocker</a>
+                            </td>
+                            <td style="padding: 0 10px;" align="right">
+                                <span id='m_blocker_violations'></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img alt="Critical" src="http://sonar:8080/images/priority/CRITICAL.png">
+                            </td>
+                            <td>
+                                &nbsp;<a href="http://sonar:8080/drilldown/violations/com.nordstrom.sf.mpos:Develop?severity=CRITICAL">Critical</a>
+                            </td>
+                            <td style="padding: 0 10px;" align="right">
+                                <span id='m_critical_violations'></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
