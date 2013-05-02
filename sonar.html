@@ -1,10 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-    <head>
-        <meta name="generator" content="HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 15.6), see www.w3.org">
-        <title></title>
-    </head>
-    <body>
+<div>
+        <style type="text/css" scoped="">
+    span.tredningWorse { color:#FF0000;font-size:18px;font-weight:bold;}
+            span.tredningBetter { color:#3ADF00;font-size:18px;font-weight:bold;}
+            span.noTrend {color:#000000;font-size:18px;font-weight:bold;}
+            h1{color:#444;font-size:16px;}
+            a.header1:link{color:#2B547D;font-size:16px;font-weight:normal;}
+            a.header1:visited{color:#2B547D;font-size:16px;font-weight:normal;}
+            h3 {font-size:100%;font-weight:bold;}
+
+        </style>
         <script type="text/javascript">
 var J50Npi = {  
                     currentScript: null,  
@@ -33,7 +37,10 @@ var J50Npi = {
                 };
 
 
-                var url = "http://sonar:8080/api/resources";
+                var url = "http://sonar:8080"
+                var api = "/api/resources";
+                var dashboard ="/dashboard/index/"
+                var resource ="20620";
                 var data = {};
                 var msr = ["violations",
                                         "violations_density",
@@ -48,46 +55,56 @@ var J50Npi = {
                                         "duplicated_lines",
                                         "duplicated_lines_density"];
                 data["metrics"] = msr;
-                data["resource"]='20620';
+                data["resource"]=resource;
                 data["format"]='json';
                 data["includetrends"]="true";
                 var callback = function(data) {
                         var projectInfo = data[0];
                         var measuers = projectInfo.msr;
+                        projectLink.href = url+dashboard+resource;
                         projectName.innerHTML=projectInfo.name;
                         projectVersion.innerHTML=projectInfo.version;
                         runDate.innerHTML=projectInfo.date;
+                        var mesureFormat = '%s(%s%s)';
 
                         measuers.forEach(function(mesure) {
                             var trend = mesure.trend;
                             var change = mesure.var1;
+                            var mesureFormated = mesure.frmt_val;
+                            var mesureValue = mesure.val;
+                            var mesureString = sprintf(mesureFormat,mesureFormated,trend  = 1 ? "+" : "-",change );
 
                                 switch (mesure.key)
                                 {
                                         case "blocker_violations":
-                                                m_blocker_violations.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                m_blocker_violations.innerHTML = mesureString;
+                                                m_blocker_violations.className = trend = 1 ? "tredningWorse" : "tredningBetter"
                                                 break;
                                         case "violations":
-                                                m_violations.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                m_violations.innerHTML = mesureString;
+                                                m_violations.className = trend = 1 ? "tredningWorse" : "tredningBetter"
                                                 break;
                                         case "violations_density":
-                                                m_violations_density.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                m_violations_density.innerHTML = mesureString;
+                                                m_violations_density.className = trend = 1 ? "tredningWorse" : "tredningBetter"
                                                 break;
                                         case "critical_violations":
-                                                m_critical_violations.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                m_critical_violations.innerHTML = mesureString;
+                                                m_critical_violations.className = trend = 1 ? "tredningWorse" : "tredningBetter"
                                                 break;
                                         case "ncloc":
-                                                m_ncloc.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";
+                                                m_ncloc.innerHTML = mesureString;
                                                 break;
                                         case "classes":
-                                                m_classes.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";;
+                                                m_classes.innerHTML =mesureString;
                                                 break;
                                         case "test_success_density":
-                                                m_test_success_density.innerHTML = mesure.frmt_val;
+                                                m_test_success_density.innerHTML = mesureString;
+                                                m_test_success_density.className = (mesureValue != '100' ? "tredningWorse" : "tredningBetter");
                                                 break;
                                         case "coverage":
-                                                m_coverage.innerHTML = mesure.frmt_val + "(" + (trend  = 1 ? "+" : "-")  + change + ")";;
-                                                break;
+                                                m_coverage.innerHTML = mesureString;
+                                                m_coverage.className = trend = 1 ? "tredningWorse" : "tredningBetter";
                                                 
                                 }
                         });
@@ -96,104 +113,99 @@ var J50Npi = {
 
                 };
 
-                J50Npi.getJSON(url, data, callback);
+                J50Npi.getJSON(url+api, data, callback);
+
+                function sprintf(format, etc) {
+                    var arg = arguments;
+                    var i = 1;
+                    return format.replace(/%((%)|s)/g, function (m) { return m[2] || arg[i++] })
+                }       
 
         </script>
         <div>
-        <style type="text/css" scoped>
-            a.tredningWorse:link { color:#FF0000;}
-            a.tredningWorse:visited { color:#FF0000;}
-            a.tredningWorse:hover { color:#FF0000;}
-            a.tredningWorse:active { color:#FF0000;}
-            a.tredningBetter:link { color:#0000FF;}
-            a.tredningBetter:visited { color:#0000FF;}
-            a.tredningBetter:hover { color:#0000FF;}
-            a.tredningBetter:active { color:#0000FF;}
-            h3 {font-size:100%;font-weight:bold;}
-
-        </style>
-        <table width="500px" border="1">
-            <tr>
-                <td colspan="2">
-                    <h2><span id="projectName"></span> &nbsp; <span id="projectVersion"></span> &nbsp; <span id="runDate"></span></h2>
-                </td>
-            </tr>
-            <tr>
-                <td valign="top">
-                    <div class="dashbox">
+            <table style='border:solid 1px'>
+                <tr>
+                    <td colspan="12" bgcolor='#BDBDBD'>
                         <h3>
-                            Violations
+                            Sonar measurements &nbsp;<a id="projectLink" href='' name="projectLink"><span id="projectName"></span> &nbsp; <span id="projectVersion"></span> &nbsp; <span id="runDate"></span></a>
                         </h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
                         <div>
-                            <span><a class='tredningWorse' href='http://sonar:8080/drilldown/violations/com.nordstrom.sf.mpos:Develop' rel='' title=''>
-                                <span id='m_violations'></span></a>
-                            </span> 
+                            <h3>
+                                Violations
+                            </h3>
+                            <div>
+                                <span id='m_violations'></span>
+                            </div>
+                            <table class="clear width100">
+                                <tr>
+                                    <td>
+                                        &nbsp;Blocker
+                                    </td>
+                                    <td style="padding: 0 10px;" align="right">
+                                        <span id='m_blocker_violations'></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        &nbsp;Critical
+                                    </td>
+                                    <td style="padding: 0 10px;" align="right">
+                                        <span id='m_critical_violations'></span>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
+                    </td>
+                    <td>&nbsp&nbsp</td>
+                    <td valign="top">
                         <h3>
                             Rules compliance
                         </h3>
                         <div>
-                            <span><a href='http://sonar:8080/drilldown/measures/20620?highlight=weighted_violations&amp;metric=weighted_violations' class='' rel='' title=''><span id='m_violations_density'></span></a>
-                            </span> 
+                            <span id='m_violations_density'></span>
                         </div>
+                    </td>
+                     <td>&nbsp&nbsp</td>
+                    <td valign="top">
                         <h3>
                             Lines of code
                         </h3>
                         <div>
-                            <span><a href='http://sonar:8080/drilldown/measures/20620?metric=ncloc' class='' rel='' title=''><span id='m_ncloc'></span></a>
-                            </span> 
+                            <span id='m_ncloc' class='noTrend'></span>
                         </div>
+                    </td>
+                     <td>&nbsp&nbsp</td>
+                    <td valign="top">
                         <h3>
                             Classes
                         </h3>
                         <div>
-                            <span><a class='tredningWorse' href='http://sonar:8080/drilldown/measures/20620?metric=classes' class='' rel='' title=''><span id='m_classes'></span></a>
-                            </span> 
+                            <span id='m_classes' class='noTrend'></span>
                         </div>
+                    </td>
+                    <td>&nbsp&nbsp</td>
+                    <td valign="top">
                         <h3>
                             Unit test success
                         </h3>
                         <div>
-                            <span><a href='http://sonar:8080/drilldown/measures/20620?metric=test_success_density' class='' rel='' title=''><span id='m_test_success_density'></span></a>
-                            </span> 
+                            <span id='m_test_success_density'></span>
                         </div>
+                    </td>
+                    <td>&nbsp&nbsp</td>
+                    <td valign="top">
                         <h3>
                             Code coverage
                         </h3>
                         <div>
-                            <span><a href='http://sonar:8080/drilldown/measures/20620?metric=coverage' class='' rel='' title=''><span id='m_coverage'></span></a>
-                            </span> 
+                            <span id='m_coverage'></span>
                         </div>
-                    </div>
-                </td>
-                <td valign="top" nowrap>
-                    <table class="clear width100" border="1">
-                        <tr>
-                            <td>
-                                <img alt="Blocker" src="http://sonar:8080/images/priority/BLOCKER.png">
-                            </td>
-                            <td>
-                                &nbsp;<a href="http://sonar:8080/drilldown/violations/com.nordstrom.sf.mpos:Develop?severity=BLOCKER">Blocker</a>
-                            </td>
-                            <td style="padding: 0 10px;" align="right">
-                                <span id='m_blocker_violations'></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img alt="Critical" src="http://sonar:8080/images/priority/CRITICAL.png">
-                            </td>
-                            <td>
-                                &nbsp;<a href="http://sonar:8080/drilldown/violations/com.nordstrom.sf.mpos:Develop?severity=CRITICAL">Critical</a>
-                            </td>
-                            <td style="padding: 0 10px;" align="right">
-                                <span id='m_critical_violations'></span>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-        /</div>
-    </body>
-</html>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
