@@ -65,14 +65,14 @@ var J50Npi = {
                         projectName.innerHTML=projectInfo.name;
                         projectVersion.innerHTML=projectInfo.version;
                         runDate.innerHTML=projectInfo.date;
-                        var mesureFormat = '%s(%s%s)';
+                        var mesureFormat = '%s(%s)';
 
                         measuers.forEach(function(mesure) {
                             var trend = mesure.trend;
                             var change = mesure.var1;
                             var mesureFormated = mesure.frmt_val;
                             var mesureValue = mesure.val;
-                            var mesureString = sprintf(mesureFormat,mesureFormated,trend  = 1 ? "+" : "-",change );
+                            var mesureString = sprintf(mesureFormat,mesureFormated,change );
 
                                 switch (mesure.key)
                                 {
@@ -86,7 +86,7 @@ var J50Npi = {
                                                 break;
                                         case "violations_density":
                                                 m_violations_density.innerHTML = mesureString;
-                                                m_violations_density.className = trend = 1 ? "tredningWorse" : "tredningBetter"
+                                                m_violations_density.className = trend = 1 ? "tredningBetter" : "tredningWorse"
                                                 break;
                                         case "critical_violations":
                                                 m_critical_violations.innerHTML = mesureString;
@@ -208,4 +208,4 @@ var J50Npi = {
                 </tr>
             </table>
         </div>
-        <div>
+    <div>
